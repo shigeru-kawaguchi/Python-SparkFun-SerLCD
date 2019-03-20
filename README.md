@@ -7,6 +7,9 @@ Python library for handling SerLCD displays from SparkFun.com, such as;
 
 It was ported from [sparkfun/SparkFun_SerLCD_Arduino_Library](https://github.com/sparkfun/SparkFun_SerLCD_Arduino_Library) and currently for I2C connection only.
 
+## Caution
+There exists an issue with timing which result in "OSError: [Errno 121] Remote I/O error."
+
 ## ToDo
 * More details and examples into this README.
 
