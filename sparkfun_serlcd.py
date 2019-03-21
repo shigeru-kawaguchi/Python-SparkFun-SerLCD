@@ -85,6 +85,7 @@ class SerLCD:
 		row = max([0, row])
 		row = min([row, self.MAX_ROWS - 1])
 		self._bus.write_i2c_block_data(self._i2cAddr, self.SPECIAL_COMMAND, [self.LCD_SETDDRAMADDR | (col + row_offsets[row])])
+		time.sleep(0.050)
 
 	#Custom character
 	def createChar(self, location, char_map):
@@ -97,6 +98,7 @@ class SerLCD:
 	def writeChar(self, location):
 		location = location & 0x7
 		self._bus.write_i2c_block_data(self._i2cAddr, self.SETTING_COMMAND, [35 + location])
+		time.sleep(0.010)
 
 	#Write string
 	def write(self, text):
