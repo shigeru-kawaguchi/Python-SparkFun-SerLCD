@@ -67,15 +67,15 @@ class SerLCD:
 
 	def command(self, byteCmd):
 		self._bus.write_i2c_block_data(self._i2cAddr, self.SETTING_COMMAND, byteCmd)
-		time.sleep(0.05)
+		time.sleep(0.010)
 
 	def specialCommand(self, byteCmd):
 		self._bus.write_i2c_block_data(self._i2cAddr, self.SPECIAL_COMMAND, byteCmd)
-		time.sleep(0.05)
+		time.sleep(0.050)
 
 	def clear(self):
 		self.command([self.CLEAR_COMMAND])
-		time.sleep(0.01)
+		time.sleep(0.010)
 
 	def home(self):
 		self.specialCommand([self.LCD_RETURNHOME])
@@ -85,7 +85,6 @@ class SerLCD:
 		row = max([0, row])
 		row = min([row, self.MAX_ROWS - 1])
 		self._bus.write_i2c_block_data(self._i2cAddr, self.SPECIAL_COMMAND, [self.LCD_SETDDRAMADDR | (col + row_offsets[row])])
-		time.sleep(0.05)
 
 	#Custom character
 	def createChar(self, location, char_map):
@@ -93,6 +92,7 @@ class SerLCD:
 		char_map.insert(0, 27 + location)
 		char_map.insert(0, self.SETTING_COMMAND)
 		self._bus.write_i2c_block_data(self._i2cAddr, 0, char_map)
+		time.sleep(0.050)
 
 	def writeChar(self, location):
 		location = location & 0x7
@@ -107,7 +107,7 @@ class SerLCD:
 		data0 = data[0]
 		del data[0]
 		self._bus.write_i2c_block_data(self._i2cAddr, data0, data)
-		time.sleep(0.05)
+		time.sleep(0.010)
 
 	#Display control
 	def noDisplay(self):
@@ -148,21 +148,27 @@ class SerLCD:
 
 	def setBacklight(self, r, g, b):
 		self._bus.write_i2c_block_data(self._i2cAddr, self.SETTING_COMMAND, [self.SET_RGB_COMMAND, r, g, b])
+		time.sleep(0.010)
 
 	def enableSystemMessages(self):
 		self._bus.write_i2c_block_data(self._i2cAddr, self.SETTING_COMMAND, [self.ENABLE_SYSTEM_MESSAGE_DISPLAY])
+		time.sleep(0.010)
 
 	def disableSystemMessages(self):
 		self._bus.write_i2c_block_data(self._i2cAddr, self.SETTING_COMMAND, [self.DISABLE_SYSTEM_MESSAGE_DISPLAY])
+		time.sleep(0.010)
 
 	def enableSplash(self):
 		self._bus.write_i2c_block_data(self._i2cAddr, self.SETTING_COMMAND, [self.ENABLE_SPLASH_DISPLAY])
+		time.sleep(0.010)
 
 	def disableSplash(self):
 		self._bus.write_i2c_block_data(self._i2cAddr, self.SETTING_COMMAND, [self.DISABLE_SPLASH_DISPLAY])
+		time.sleep(0.010)
 
 	def saveAsSplash(self):
 		self._bus.write_i2c_block_data(self._i2cAddr, self.SETTING_COMMAND, [self.SAVE_CURRENT_DISPLAY_AS_SPLASH])
+		time.sleep(0.010)
 
 	def leftToRight(self):
 		self._displayMode = self._displayMode | self.LCD_ENTRYLEFT
@@ -182,10 +188,12 @@ class SerLCD:
 
 	def setContrast(self, newVal):
 		self._bus.write_i2c_block_data(self._i2cAddr, self.SETTING_COMMAND, [self.CONTRAST_COMMAND, newVal])
+		time.sleep(0.010)
 
 	def setAddress(self, newAddr):
 		self._bus.write_i2c_block_data(self._i2cAddr, self.SETTING_COMMAND, [self.ADDRESS_COMMAND, newAddr])
 		self._i2cAddr = newAddr
+		time.sleep(0.050)
 
 def main():
 	lcd = SerLCD()
